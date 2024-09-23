@@ -25,7 +25,7 @@ void app_initialize(s_app* app){
 
     // initialize textures... maybe this should happen on map load?
     app_loadTexture(app, "gfx/shae.png", INDEX_TEXTURE_SHAE_WALK0);
-
+    app_loadBackground(app, "gfx/abap_bg.png");
 }
 
 void app_prepareScene(s_app* app){
@@ -69,6 +69,32 @@ void app_loadTexture(s_app* app, char *filename, int index){
     // Not checking for null ptr here because i'm straight!
     sdlApp->textures[index] = IMG_LoadTexture(sdlApp->renderer, filename);
 
+}
+
+void app_loadBackground(s_app* app, char* filename){
+    s_sdlApp* sdlApp = &app->sdlApp;
+
+    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+    sdlApp->background = IMG_LoadTexture(sdlApp->renderer, filename);
+}
+
+void app_drawBackground(s_app* app){
+    s_sdlApp* sdlApp = &app->sdlApp;
+
+    SDL_Rect dest;
+    //int x, y;
+
+    // FIXME: set X, Y to camera coordinates
+    // create lakitu object that will be our cameraman
+    // maybe map should be sequence of tiles with attributes like smb1
+
+    dest.x = 0;
+    dest.y = 0;
+    dest.w = SCREEN_WIDTH;
+    dest.h = SCREEN_HEIGHT;
+
+    SDL_RenderCopy(sdlApp->renderer, sdlApp->background, NULL, &dest);
 }
 
 void app_drawShae(s_app* app){

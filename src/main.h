@@ -2,6 +2,7 @@
 #define MAIN_H_INCLUDED
 
 #include "aapi.h"
+#include "stage.h"
 
 int main(int argc, char *argv[]);
 

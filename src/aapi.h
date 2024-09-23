@@ -10,8 +10,8 @@
 #include <SDL2/SDL_mixer.h>
 
 /* Constants, defines, macros, etc. */
-#define SCREEN_WIDTH 720
-#define SCREEN_HEIGHT 720
+#define SCREEN_WIDTH 256
+#define SCREEN_HEIGHT 256
 #define SIZE_TEXTURE_ARRAY 32 // will probably want more textures
 
 // Will have to move all these indices.. Duy should we just
@@ -28,6 +28,8 @@ typedef struct
     SDL_Window   *window;
 
     SDL_Texture *textures[SIZE_TEXTURE_ARRAY];
+    SDL_Texture *background; // FIXME: make this an array of overworld maps
+
 } s_sdlApp;
 
 /* This struct holds graphics, inputs, outputs
@@ -35,6 +37,8 @@ typedef struct
 typedef struct
 {
     s_sdlApp sdlApp;
+
+
 } s_app;
 
 /* Generic App Helpers (Call these outside aapi.c!) */
@@ -44,6 +48,8 @@ void app_handleInput(s_app* app);
 void app_presentScene(s_app* app);
 void app_finishFrame(s_app* app);
 void app_loadTexture(s_app* app, char *filename, int index);
+void app_loadBackground(s_app* app, char* filename);
+void app_drawBackground(s_app* app);
 void app_drawShae(s_app* app);
 
 /* SDL Only Helpers (Only call in aapi.c!) */
