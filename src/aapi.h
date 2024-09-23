@@ -9,6 +9,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 
+#include "shae.h"
+
 /* Constants, defines, macros, etc. */
 #define SCREEN_WIDTH 256
 #define SCREEN_HEIGHT 256
@@ -20,6 +22,8 @@
 #define INDEX_TEXTURE_SHAE_WALK0 0
 #define INDEX_TEXTURE_SHAE_WALK1 1
 
+#define MAX_KEYBOARD_KEYS 350
+
 /* This struct holds stuff only relevant to SDL
 */
 typedef struct
@@ -30,6 +34,7 @@ typedef struct
     SDL_Texture *textures[SIZE_TEXTURE_ARRAY];
     SDL_Texture *background; // FIXME: make this an array of overworld maps
 
+    unsigned char keyboard[MAX_KEYBOARD_KEYS];
 } s_sdlApp;
 
 /* This struct holds graphics, inputs, outputs
@@ -38,13 +43,15 @@ typedef struct
 {
     s_sdlApp sdlApp;
 
-
+    s_Shae shae;
 } s_app;
 
 /* Generic App Helpers (Call these outside aapi.c!) */
 void app_initialize(s_app* app);
 void app_prepareScene(s_app* app);
 void app_handleInput(s_app* app);
+void app_keyDown(s_app* app, SDL_KeyboardEvent* event);
+void app_keyUp(s_app* app, SDL_KeyboardEvent* event);
 void app_presentScene(s_app* app);
 void app_finishFrame(s_app* app);
 void app_loadTexture(s_app* app, char *filename, int index);

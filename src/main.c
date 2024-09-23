@@ -11,7 +11,8 @@ int main(int argc, char* argv[]){
     {
         app_prepareScene(&app);
         app_handleInput(&app);
-
+        
+        stage_updateLogic(&app);
         stage_draw(&app);
 
         app_presentScene(&app);

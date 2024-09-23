@@ -26,6 +26,9 @@ void app_initialize(s_app* app){
     // initialize textures... maybe this should happen on map load?
     app_loadTexture(app, "gfx/shae.png", INDEX_TEXTURE_SHAE_WALK0);
     app_loadBackground(app, "gfx/abap_bg.png");
+
+    // Initialize game objects, like Shae
+    shae_initialize(&app->shae);
 }
 
 void app_prepareScene(s_app* app){
@@ -38,6 +41,8 @@ void app_prepareScene(s_app* app){
 void app_handleInput(s_app* app){
     SDL_Event event;
 
+
+    // I hate this logic!! will be better on bare metal
     while(SDL_PollEvent(&event))
     {
         switch (event.type){
@@ -45,10 +50,32 @@ void app_handleInput(s_app* app){
                 exit(0);
                 break;
 
+            case SDL_KEYDOWN:
+                app_keyDown(app, &event.key);
+                break;
+            
+            case SDL_KEYUP:
+                app_keyUp(app, &event.key);
+                break;
+
             default:
                 break;
         }
     }
+}
+
+void app_keyDown(s_app* app, SDL_KeyboardEvent* event){
+	if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
+	{
+		app->sdlApp.keyboard[event->keysym.scancode] = 0;
+	}
+}
+
+void app_keyUp(s_app* app, SDL_KeyboardEvent* event){
+	if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
+	{
+		app->sdlApp.keyboard[event->keysym.scancode] = 1;
+	}
 }
 
 void app_presentScene(s_app* app){
@@ -102,8 +129,8 @@ void app_drawShae(s_app* app){
 
     SDL_Rect dest;
     SDL_Texture* texture = sdlApp->textures[INDEX_TEXTURE_SHAE_WALK0];
-    dest.x = 15;
-    dest.y = 87;
+    dest.x = app->shae.x;
+    dest.y = app->shae.y;
     SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
     SDL_RenderCopy(sdlApp->renderer, texture, NULL, &dest);
