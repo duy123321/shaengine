@@ -67,14 +67,14 @@ void app_handleInput(s_app* app){
 void app_keyDown(s_app* app, SDL_KeyboardEvent* event){
 	if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
 	{
-		app->sdlApp.keyboard[event->keysym.scancode] = 0;
+		app->sdlApp.keyboard[event->keysym.scancode] = 1;
 	}
 }
 
 void app_keyUp(s_app* app, SDL_KeyboardEvent* event){
 	if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
 	{
-		app->sdlApp.keyboard[event->keysym.scancode] = 1;
+		app->sdlApp.keyboard[event->keysym.scancode] = 0;
 	}
 }
 
